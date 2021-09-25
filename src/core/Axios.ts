@@ -110,3 +110,5 @@ export default class Axios {
     return this._requestMethodWithData('patch', url, data, config)
   }
 }
+
+// test
