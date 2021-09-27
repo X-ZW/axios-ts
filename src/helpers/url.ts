@@ -1,4 +1,8 @@
 import { isData, isPlaninObject } from './util'
+interface URLOring {
+  protocol: string
+  host: string
+}
 
 function encode(val: string) {
   return encodeURIComponent(val)
@@ -45,4 +49,22 @@ export function buildURL(url: string, params?: any): string {
     url += url.indexOf('?') === -1 ? '?' : '&'
   }
   return url
+}
+
+export function isURLSameOrigin(requestURL: string): boolean {
+  const parsedOrigin = resolveURL(requestURL)
+  return (parsedOrigin.protocol === currentOrigin.protocol && parsedOrigin.host === currentOrigin.host)
+}
+
+const currentOrigin = resolveURL(window.location.href)
+
+const urlParsingNode = document.createElement('a')
+
+function resolveURL(url: string): URLOring {
+  urlParsingNode.setAttribute('href', url)
+  const { protocol, host } = urlParsingNode
+  return {
+    protocol,
+    host
+  }
 }
